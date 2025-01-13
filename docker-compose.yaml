@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend  # Path to the frontend Dockerfile
+    ports:
+      - "3000:80"  # Map port 80 in the container to port 3000 on the host
+    depends_on:
+      - backend  # Ensure backend starts before frontend
+      - login-app  # Ensure login-app starts before frontend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend  # Path to the backend Dockerfile
+    ports:
+      - "4000:4000"  # Map port 4000 in the container to port 4000 on the host
+    depends_on:
+      - login-app  # Ensure login-app starts before backend
+    networks:
+      - app-network
+    environment:
+      - MONGO_URL=mongodb://database:27017/mydb  # Connect backend to MongoDB
+
+  login-app:
+    build:
+      context: ./login-app  # Path to the login-app Dockerfile
+    ports:
+      - "4001:4001"  # Map port 4001 in the container to port 4001 on the host
+    networks:
+      - app-network
+    environment:
+      - LOGIN_SECRET=mysecret  # Secret for login service authentication
+
+  database:
+    image: mongo:6.0  # Use the official MongoDB image
+    container_name: mongodb
+    ports:
+      - "27017:27017"  # Map port 27017 for MongoDB
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db  # Persistent storage for MongoDB
+
+networks:
+  app-network:
+    driver: bridge  # Use a bridge network for communication between services
+
+volumes:
+  mongo-data:
+    driver: local  # Persistent data volume for MongoDB
