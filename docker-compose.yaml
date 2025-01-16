@@ -14,7 +14,7 @@ services:
 
   backend:
     build:
-      context: ./backend  # Path to the backend Dockerfile
+      context: ./api  # Path to the backend Dockerfile
     ports:
       - "4000:4000"  # Map port 4000 in the container to port 4000 on the host
     depends_on:
@@ -22,7 +22,9 @@ services:
     networks:
       - app-network
     environment:
-      - MONGO_URL=mongodb://database:27017/mydb  # Connect backend to MongoDB
+      - MONGO_INITDB_ROOT_USERNAME= root
+      - MONGO_INITDB_ROOT_PASSWORD= example
+      - MONGO_URI=mongodb://root:example@mongo:27017/ # Connect backend to MongoDB
 
   login-app:
     build:
@@ -32,11 +34,15 @@ services:
     networks:
       - app-network
     environment:
-      - LOGIN_SECRET=mysecret  # Secret for login service authentication
+      - REACT_APP_FRONTEND_URL=http://frontend:3000  # Secret for login service authentication
 
-  database:
-    image: mongo:6.0  # Use the official MongoDB image
+
+  mongo:
+    image: mongo # Use the official MongoDB image
     container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"  # Map port 27017 for MongoDB
     networks:
