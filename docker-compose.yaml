@@ -4,11 +4,11 @@ services:
   frontend:
     build:
       context: ./frontend  # Path to the frontend Dockerfile
+    container_name: frontend
     ports:
-      - "3000:80"  # Map port 80 in the container to port 3000 on the host
+      - "3000:3000"  # Map port 80 in the container to port 3000 on the host
     depends_on:
       - backend  # Ensure backend starts before frontend
-      - login-app  # Ensure login-app starts before frontend
     networks:
       - app-network
 
@@ -18,33 +18,29 @@ services:
     ports:
       - "4000:4000"  # Map port 4000 in the container to port 4000 on the host
     depends_on:
-      - login-app  # Ensure login-app starts before backend
+      - mongo  # Ensure database starts before backend
     networks:
       - app-network
     environment:
-      - MONGO_INITDB_ROOT_USERNAME= root
-      - MONGO_INITDB_ROOT_PASSWORD= example
-      - MONGO_URI=mongodb://root:example@mongo:27017/ # Connect backend to MongoDB
+      MONGO_URI: mongodb://mongo:27017/3tier # Connect backend to MongoDB
 
   login-app:
     build:
       context: ./login-app  # Path to the login-app Dockerfile
     ports:
       - "4001:4001"  # Map port 4001 in the container to port 4001 on the host
+    depends_on:
+      - frontend
     networks:
       - app-network
     environment:
-      - REACT_APP_FRONTEND_URL=http://frontend:3000  # Secret for login service authentication
+      REACT_APP_FRONTEND_URL: http://frontend:3000  # Secret for login service authentication
 
 
   mongo:
-    image: mongo # Use the official MongoDB image
+    image: mongo:7.0.16 # Use the official MongoDB image
+    restart: always
     container_name: mongodb
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    ports:
-      - "27017:27017"  # Map port 27017 for MongoDB
     networks:
       - app-network
     volumes:
