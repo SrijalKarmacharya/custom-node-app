@@ -9,7 +9,7 @@ const Login = () => {
   const [successMessage, setSuccessMessage] = useState(''); // State for success message
   const navigate = useNavigate();
 
-  const frontendUrl = process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3001'; // Use environment variable or fallback
+  const frontendUrl = process.env.REACT_APP_FRONTEND_URL ; // Use environment variable or fallback
   
   const handleSubmit = async (e) => {
     e.preventDefault();
