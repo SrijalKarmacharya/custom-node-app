@@ -4,10 +4,12 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/data')
+    const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL ;
+    fetch(`${backendApiUrl}/data`)
       .then((res) => res.json())
       .then((data) => setData(data));
   }, []);
+  console.log('Backend API URL:', process.env.REACT_APP_BACKEND_API_URL);
 
   return (
     <div>
