@@ -30,6 +30,7 @@ services:
   login-app:
     build:
       context: ./login-app  # Path to the login-app Dockerfile
+    container_name:
     ports:
       - "4001:4001"  # Map port 4001 in the container to port 4001 on the host
     # depends_on:
