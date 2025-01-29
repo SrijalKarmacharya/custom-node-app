@@ -5,6 +5,7 @@ services:
     build:
       context: ./frontend  # Path to the frontend Dockerfile
     container_name: frontend
+    restart: unless-stopped
     ports:
       - "3000:80"  # Map port 80 in the container to port 3000 on the host
     depends_on:
@@ -12,12 +13,13 @@ services:
     networks:
       - app-network
     environment:
-      REACT_APP_BACKEND_API_URL: http://backend:5000/api
+      REACT_APP_BACKEND_API_URL: http://13.214.13.52:5000/api
 
   backend:
     build:
       context: ./api  # Path to the backend Dockerfile
     container_name: backend
+    restart: unless-stopped
     ports:
       - "5000:5000"  # Map port 4000 in the container to port 4000 on the host
     depends_on:
@@ -30,7 +32,8 @@ services:
   login-app:
     build:
       context: ./login-app  # Path to the login-app Dockerfile
-    container_name:
+    container_name: login_page
+    restart: unless-stopped
     ports:
       - "4001:4001"  # Map port 4001 in the container to port 4001 on the host
     # depends_on:
@@ -38,7 +41,7 @@ services:
     networks:
       - app-network
     environment:
-      REACT_APP_FRONTEND_URL: localhost:3000
+      REACT_APP_FRONTEND_URL: http://13.214.13.52:3000
 
 
   mongo:
