@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend
@@ -19,7 +19,7 @@ spec:
         - containerPort: 3000
         env:
         - name: REACT_APP_BACKEND_API_URL
-          value: http://backend-service:5000
+          value: "http://backend-service:5000/api"
 ---
 apiVersion: v1
 kind: Service
