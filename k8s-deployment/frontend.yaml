@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: srijaldocker/node-app:front
+        image: srijaldocker/node-app:frontend-marchh1
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
         - name: REACT_APP_BACKEND_API_URL
-          value: "http://backend-service:5000/api"
+          value: "http://a7d767d2c13a74c3db9e20a88be17cbd-40707563.ap-southeast-1.elb.amazonaws.com:5000/api"
 ---
 apiVersion: v1
 kind: Service
@@ -31,6 +31,6 @@ spec:
   ports:
     - protocol: TCP
       port: 3000
-      targetPort: 3000
-  type: ClusterIP
+      targetPort: 80
+  type: LoadBalancer
 

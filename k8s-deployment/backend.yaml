@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: backend
-        image: srijaldocker/nodechat:back 
+        image: srijaldocker/nodechat:back
         ports:
         - containerPort: 5000
         env:
         - name: MONGO_URI
-          value: mongodb://mongo-service:27017/3tier
+          value: mongodb://mongo:27017/3tier
 ---
 apiVersion: v1
 kind: Service
@@ -32,5 +32,5 @@ spec:
     - protocol: TCP
       port: 5000
       targetPort: 5000
-  type: ClusterIP
+  type: LoadBalancer
 
