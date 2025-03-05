@@ -4,7 +4,7 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL ;
+    const backendApiUrl = process.env.REACT_APP_BACKEND_API_URL || "REACT_APP_BACKEND_API_URL_PLACEHOLDER" ;
     fetch(`${backendApiUrl}/data`)
       .then((res) => res.json())
       .then((data) => setData(data));

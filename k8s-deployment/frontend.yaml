@@ -14,12 +14,12 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: srijaldocker/node-app:frontend-marchh1
+        image: srijaldocker/node-app:frontend-marchh5.2.1
         ports:
         - containerPort: 80
         env:
         - name: REACT_APP_BACKEND_API_URL
-          value: "http://a7d767d2c13a74c3db9e20a88be17cbd-40707563.ap-southeast-1.elb.amazonaws.com:5000/api"
+          value: "http://aef3edd073f8e419ca5914c78c5067c2-961127127.ap-southeast-1.elb.amazonaws.com:5000/api"
 ---
 apiVersion: v1
 kind: Service
