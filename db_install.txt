@@ -1,1 +1,21 @@
+# db-install 
 https://www.fosstechnix.com/how-to-install-mongodb-server-on-ubuntu-24-04/
+
+# Install nginx ingress-controller
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/aws/deploy.yaml
+
+# update kubeconfig for the cluster
+
+aws eks list-clusters --region ap-southeast-1
+aws eks update-kubeconfig --region ap-southeast-1 --name < cluster-name >
+
+# mongodb data injection for test
+
+$ mongosh
+
+test> use 3tier;
+db.items.insertMany([
+...   { name: "Item 1" },
+...   { name: "Item 2" },
+...   { name: "Item 3" }
+... ])
